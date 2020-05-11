@@ -45,11 +45,11 @@
         <activity
             android:name=".presentacion.AcercaDeActivity"
             android:label="Acerca de.."
-            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".presentacion.PreferenciasActivity"
             android:label="Preferencias.."
-            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".presentacion.VistaLugarActivity"
             android:label="Lugares.."
@@ -60,7 +60,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".mapas.MapsActivity"
-            android:label="Mapa Lugares"></activity>
+            android:label="Mapa Lugares" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
