@@ -25,12 +25,16 @@ import com.example.mislugares_davidcuevas.modelo.Lugar;
 import com.example.mislugares_davidcuevas.presentacion.Aplicacion;
 import com.example.mislugares_davidcuevas.presentacion.EdicionLugarActivity;
 import com.example.mislugares_davidcuevas.presentacion.VistaLugarActivity;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.UUID;
 
 import static com.example.mislugares_davidcuevas.presentacion.VistaLugarActivity.RESULTADO_GALERIA;
 
@@ -44,6 +48,10 @@ public class CasosUsoLugar {
     private Activity actividad;
     private LugaresBD lugares;
     private AdaptadorLugaresBD adaptador;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    private UUID idFirebase;
+
 
 
     /**
@@ -70,6 +78,12 @@ public class CasosUsoLugar {
      * VistaLugarActivity para que se inicie la actividad y muestre ese lugar.
      * @param pos
      */
+    public void mostrar(int pos, String idFirebase) {
+        Intent i = new Intent(actividad, VistaLugarActivity.class);
+        i.putExtra("pos", pos);
+        i.putExtra("idFirebase", idFirebase);
+        actividad.startActivity(i);
+    }
     public void mostrar(int pos) {
         Intent i = new Intent(actividad, VistaLugarActivity.class);
         i.putExtra("pos", pos);
@@ -335,6 +349,7 @@ public class CasosUsoLugar {
         }
         Intent i = new Intent(actividad, EdicionLugarActivity.class);
         i.putExtra("_id", id);
+
         actividad.startActivity(i);
     }
 
@@ -355,6 +370,7 @@ public class CasosUsoLugar {
         }
         Intent i = new Intent(actividad, EdicionLugarActivity.class);
         i.putExtra("_id", id);
+
         actividad.startActivity(i);
 
     }
@@ -372,4 +388,5 @@ public class CasosUsoLugar {
         i.putExtra("_id", id);
         actividad.startActivity(i);
     }
+
 }

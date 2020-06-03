@@ -13,6 +13,10 @@ import com.example.mislugares_davidcuevas.modelo.Lugar;
 import com.example.mislugares_davidcuevas.modelo.RepositorioLugares;
 import com.example.mislugares_davidcuevas.modelo.TipoLugar;
 import com.example.mislugares_davidcuevas.presentacion.Aplicacion;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.UUID;
 
 /**
  * Clase que crea  la base de datos si no existe y que contiene
@@ -22,6 +26,9 @@ public class LugaresBD extends SQLiteOpenHelper implements RepositorioLugares {
 
 
     Context contexto;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    private UUID idFirebase;
 
     /**
      * Inilizacion de la clase
@@ -50,34 +57,6 @@ public class LugaresBD extends SQLiteOpenHelper implements RepositorioLugares {
                 "comentario TEXT, " +
                 "fecha BIGINT, " +
                 "valoracion REAL)");
-        bd.execSQL("INSERT INTO lugares VALUES (null, "+
-                "'Escuela Politécnica Superior de Gandía', "+
-                "'C/ Paranimf, 1 46730 Gandia (SPAIN)', -0.166093, 38.995656, "+
-                TipoLugar.EDUCACION.ordinal() + ", '', 962849300, "+
-                "'http://www.epsg.upv.es', "+
-                "'Uno de los mejores lugares para formarse.', "+
-                System.currentTimeMillis() +", 3.0)");
-        bd.execSQL("INSERT INTO lugares VALUES (null, 'Al de siempre', "+
-                "'P.Industrial Junto Molí Nou - 46722, Benifla (Valencia)', "+
-                " -0.190642, 38.925857, " +  TipoLugar.BAR.ordinal() + ", '', "+
-                "636472405, '', "+"'No te pierdas el arroz en calabaza.', " +
-                System.currentTimeMillis() +", 3.0)");
-        bd.execSQL("INSERT INTO lugares VALUES (null, 'androidcurso.com', "+
-                "'ciberespacio', 0.0, 0.0,"+TipoLugar.EDUCACION.ordinal()+", '', "+
-                "962849300, 'http://androidcurso.com', "+
-                "'Amplia tus conocimientos sobre Android.', "+
-                System.currentTimeMillis() +", 5.0)");
-        bd.execSQL("INSERT INTO lugares VALUES (null,'Barranco del Infierno',"+
-                "'Vía Verde del río Serpis. Villalonga (Valencia)', -0.295058, "+
-                "38.867180, "+TipoLugar.NATURALEZA.ordinal() + ", '', 0, "+
-                "'http://sosegaos.blogspot.com.es/2009/02/lorcha-villalonga-via-verde-del-"+
-                "rio.html', 'Espectacular ruta para bici o andar', "+
-                System.currentTimeMillis() +", 4.0)");
-        bd.execSQL("INSERT INTO lugares VALUES (null, 'La Vital', "+
-                "'Avda. La Vital,0 46701 Gandia (Valencia)',-0.1720092,38.9705949,"+
-                TipoLugar.COMPRAS.ordinal() + ", '', 962881070, "+
-                "'http://www.lavital.es', 'El típico centro comercial', "+
-                System.currentTimeMillis() +", 2.0)");
     }
 
     /**

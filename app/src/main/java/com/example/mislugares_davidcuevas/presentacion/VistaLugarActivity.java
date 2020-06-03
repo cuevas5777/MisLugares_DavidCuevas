@@ -26,8 +26,13 @@ import com.example.mislugares_davidcuevas.adaptadores.AdaptadorLugaresBD;
 import com.example.mislugares_davidcuevas.casos_uso.CasoUsoAlmacenamiento;
 import com.example.mislugares_davidcuevas.casos_uso.CasosUsoLugar;
 import com.example.mislugares_davidcuevas.datos.LugaresBD;
+import com.example.mislugares_davidcuevas.datos.LugaresFirebase;
+import com.example.mislugares_davidcuevas.modelo.GeoPunto;
 import com.example.mislugares_davidcuevas.modelo.Lugar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -83,6 +88,10 @@ public class VistaLugarActivity extends AppCompatActivity {
 
     TextView txtHora;
 
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    String idFirebase;
+    LugaresFirebase lugaresFirebase = new LugaresFirebase();
 
     /**
      * Inicializa los componentes de la actividad. El argumento Bundle
@@ -105,6 +114,7 @@ public class VistaLugarActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         pos = extras.getInt("pos", -1) ;
         _id = extras.getInt("_id",-1);
+        idFirebase = extras.getString("idFirebase");
         if (_id!=-1){
             lugar = lugares.elemento(_id);
         }
@@ -143,6 +153,18 @@ public class VistaLugarActivity extends AppCompatActivity {
                 usoLugar.mapa(pos);
             }
         });
+        inicializarFirebase();
+
+        lugaresFirebase.setNombre(lugar.getNombre());
+        lugaresFirebase.setTipo(lugar.getTipo());
+        lugaresFirebase.setDireccion(lugar.getDireccion());
+        lugaresFirebase.setTelefono(lugar.getTelefono());
+        lugaresFirebase.setUrl(lugar.getUrl());
+        lugaresFirebase.setComentario(lugar.getComentario());
+        lugaresFirebase.setPosicion(lugar.getPosicion());
+        lugaresFirebase.setValoracion(lugar.getValoracion());
+
+        databaseReference.child("Lugares").child(String.valueOf(idFirebase)).child(String.valueOf(_id)).setValue(lugaresFirebase);
     }
 
     /**
@@ -184,6 +206,7 @@ public class VistaLugarActivity extends AppCompatActivity {
 
             case R.id.accion_borrar:
                 int _id = adaptador.idPosicion(pos);
+                databaseReference.child("Lugares").child(idFirebase).child(String.valueOf(_id)).removeValue();
                 usoLugar.borrar(_id);
                 return true;
 
@@ -464,6 +487,12 @@ public class VistaLugarActivity extends AppCompatActivity {
 
         }, hora, minuto, true);
         recogerHora.show();
+    }
+
+    public void inicializarFirebase(){
+        FirebaseApp.initializeApp(this);
+        firebaseDatabase= FirebaseDatabase.getInstance();
+        databaseReference=firebaseDatabase.getReference();
     }
 
 }

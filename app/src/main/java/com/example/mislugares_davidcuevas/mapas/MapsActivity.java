@@ -25,6 +25,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.UUID;
 
 /**
  * FragmentActivity sobre el que vamos a cargar nuestro mapa de la API de Google Maps
@@ -42,6 +47,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker m;
     private Lugar lugar;
     private int _id = -1;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     /**
      * Inicializa los componentes de la actividad.
@@ -64,6 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (extras != null) {
             _id = extras.getInt("_id", -1);
         }
+        inicializarFirebase();
     }
 
     /**
@@ -206,7 +214,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 lugar = adaptador.lugarPosicion(id);
                 lugar.setPosicion(new GeoPunto(marker.getPosition().longitude, marker.getPosition().latitude));
                 usoLugar.guardar(adaptador.idPosicion(id), lugar);
+
             }
         }
+    }
+
+    public void inicializarFirebase(){
+        FirebaseApp.initializeApp(this);
+        firebaseDatabase= FirebaseDatabase.getInstance();
+        databaseReference=firebaseDatabase.getReference();
     }
 }

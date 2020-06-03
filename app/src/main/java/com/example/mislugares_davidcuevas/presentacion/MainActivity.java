@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,7 +27,25 @@ import com.example.mislugares_davidcuevas.casos_uso.CasoUsoLocalizacion;
 import com.example.mislugares_davidcuevas.casos_uso.CasosUsoLugar;
 import com.example.mislugares_davidcuevas.datos.LugaresBD;
 import com.example.mislugares_davidcuevas.mapas.MapsActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.UUID;
+
 
 /**
  * Clase MainActivity que es la encargada de mostrar la pantalla principal
@@ -43,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
     private static final int SOLICITUD_PERMISO_LOCALIZACION = 1;
     private CasoUsoLocalizacion usoLocalizacion;
     private int _id = -1;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    String idFirebase;
+    private GoogleSignInClient googleSignInClient;
+    private FirebaseAuth mAuth;
+    private int CONEXIONGOOGLECORRECTA = 1;
+
 
     /**
      * Método para inicializar el layout, los listener y llenar las demás clases
@@ -50,12 +76,15 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+
+        Toast.makeText(MainActivity.this,"Pulsa el boton con el +1 si quieres introducir un lugar!",Toast.LENGTH_LONG).show();
+
         adaptador = ((Aplicacion) getApplication()).adaptador;
         lugares = ((Aplicacion) getApplication()).lugares;
-
 
         usoLugar = new CasosUsoLugar(this, lugares, adaptador);
 
@@ -70,11 +99,24 @@ public class MainActivity extends AppCompatActivity {
 
         inicializarReciclerView();
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        mAuth = FirebaseAuth.getInstance();
+        IniciarSesion();
+
+
+        inicializarFirebase();
+
+
 
         adaptador.setOnItemClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 int pos =(Integer)(v.getTag());
-                usoLugar.mostrar(pos);
+                usoLugar.mostrar(pos, idFirebase);
             }
         });
 
@@ -87,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this,"Agregar un lugar en el mapa: ",Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MainActivity.this, MapsActivity.class);
+
                 startActivity(i);
 
             }
@@ -145,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                     if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
 
                         int pos = recyclerView.getChildAdapterPosition(child);
-                        usoLugar.mostrar(pos);
+                        usoLugar.mostrar(pos, idFirebase);
                         Toast.makeText(MainActivity.this,"Seleccionado el lugar numero: "+ pos ,Toast.LENGTH_SHORT).show();
 
                         return true;
@@ -239,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     int id = Integer.parseInt (entrada.getText().toString());
-                    usoLugar.mostrar(id);
+                    usoLugar.mostrar(id, idFirebase);
                 }})
             .setNegativeButton("Cancelar", null)
             .show();
@@ -292,6 +335,7 @@ public class MainActivity extends AppCompatActivity {
      * Método que activa la localización cuando vuelve a estar en primer plano
      */
     @Override protected void onResume() {
+
         super.onResume();
         usoLocalizacion.activar();
     }
@@ -304,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         usoLocalizacion.desactivar();
     }
+
 
 
     /**
@@ -332,6 +377,67 @@ public class MainActivity extends AppCompatActivity {
             adaptador.setCursor(lugares.extraeCursor());
             adaptador.notifyDataSetChanged();
         }
+        if(requestCode == CONEXIONGOOGLECORRECTA){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+
     }
 
+    public void inicializarFirebase(){
+        FirebaseApp.initializeApp(this);
+        firebaseDatabase= FirebaseDatabase.getInstance();
+        databaseReference=firebaseDatabase.getReference();
+    }
+
+
+    private void IniciarSesion(){
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, CONEXIONGOOGLECORRECTA);
+    }
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask){
+        try{
+
+            GoogleSignInAccount acceso = completedTask.getResult(ApiException.class);
+            Toast.makeText(MainActivity.this,"Inicio de sesion completado",Toast.LENGTH_SHORT).show();
+            FirebaseGoogleAuth(acceso);
+        }
+        catch (ApiException e){
+            Toast.makeText(MainActivity.this,"Inicio de sesion fallido",Toast.LENGTH_SHORT).show();
+            FirebaseGoogleAuth(null);
+        }
+    }
+
+    private void FirebaseGoogleAuth(GoogleSignInAccount googleSignInAccount) {
+        //check if the account is null
+        if (googleSignInAccount != null) {
+            AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
+            mAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+
+                        FirebaseUser usuario = mAuth.getCurrentUser();
+                        obtenerIdFirebase(usuario);
+                    } else {
+                        Toast.makeText(MainActivity.this, "Fallo de conexion", Toast.LENGTH_SHORT).show();
+                        obtenerIdFirebase(null);
+                    }
+                }
+            });
+        }
+        else{
+            Toast.makeText(MainActivity.this, "Acceso fallido", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void obtenerIdFirebase(FirebaseUser firebaseUser){
+        GoogleSignInAccount cuentaGoogle = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+        if(cuentaGoogle !=  null){
+            String nombreGoogle = cuentaGoogle.getDisplayName();
+            String personEmail = cuentaGoogle.getEmail();
+            String idGoogle = cuentaGoogle.getId();
+            idFirebase = idGoogle;
+        }
+    }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -17,11 +16,16 @@ import com.example.mislugares_davidcuevas.R;
 import com.example.mislugares_davidcuevas.adaptadores.AdaptadorLugaresBD;
 import com.example.mislugares_davidcuevas.casos_uso.CasosUsoLugar;
 import com.example.mislugares_davidcuevas.datos.LugaresBD;
+import com.example.mislugares_davidcuevas.datos.LugaresFirebase;
 import com.example.mislugares_davidcuevas.mapas.MapsActivity;
+import com.example.mislugares_davidcuevas.modelo.GeoPunto;
 import com.example.mislugares_davidcuevas.modelo.Lugar;
 import com.example.mislugares_davidcuevas.modelo.TipoLugar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.UUID;
 
 /**
  * Clase para controlar la actividad del formulario de edicion_lugar, sus elementos
@@ -44,6 +48,9 @@ public class EdicionLugarActivity extends AppCompatActivity {
     private Spinner tipo;
     private int _id;
     private MapsActivity mapsActivity;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    private UUID idFirebase;
 
 
     /**
@@ -58,6 +65,7 @@ public class EdicionLugarActivity extends AppCompatActivity {
      *
      * @param savedInstanceState objeto Bundle que contiene el estado de la actividad.
      */
+    LugaresFirebase lugaresFirebase = new LugaresFirebase();
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edicion_lugar);
@@ -72,10 +80,13 @@ public class EdicionLugarActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         pos = extras.getInt("pos", -1);
         _id = extras.getInt("_id", -1);
+
         if (_id!=-1) lugar = lugares.elemento(_id);
         else         lugar = adaptador.lugarPosicion (pos);
 
         actualizaVistas();
+        inicializarFirebase();
+
     }
 
     /**
@@ -154,6 +165,13 @@ public class EdicionLugarActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public void inicializarFirebase(){
+        FirebaseApp.initializeApp(this);
+        firebaseDatabase= FirebaseDatabase.getInstance();
+        databaseReference=firebaseDatabase.getReference();
+    }
+
 
 }
 
