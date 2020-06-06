@@ -205,7 +205,7 @@ public class VistaLugarActivity extends AppCompatActivity {
 
             case R.id.accion_borrar:
                 int _id = adaptador.idPosicion(pos);
-                databaseReference.child("Lugares").child(idFirebase).child(String.valueOf(_id)).removeValue();
+                databaseReference.child("Lugares").child(idFirebase).child(lugar.getNombre()).removeValue();
                 usoLugar.borrar(_id);
                 return true;
 
