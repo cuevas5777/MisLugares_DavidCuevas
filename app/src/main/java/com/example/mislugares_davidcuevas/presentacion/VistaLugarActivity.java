@@ -27,7 +27,6 @@ import com.example.mislugares_davidcuevas.casos_uso.CasoUsoAlmacenamiento;
 import com.example.mislugares_davidcuevas.casos_uso.CasosUsoLugar;
 import com.example.mislugares_davidcuevas.datos.LugaresBD;
 import com.example.mislugares_davidcuevas.datos.LugaresFirebase;
-import com.example.mislugares_davidcuevas.modelo.GeoPunto;
 import com.example.mislugares_davidcuevas.modelo.Lugar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
@@ -155,7 +154,6 @@ public class VistaLugarActivity extends AppCompatActivity {
         });
         inicializarFirebase();
 
-        lugaresFirebase.setNombre(lugar.getNombre());
         lugaresFirebase.setTipo(lugar.getTipo());
         lugaresFirebase.setDireccion(lugar.getDireccion());
         lugaresFirebase.setTelefono(lugar.getTelefono());
@@ -163,8 +161,9 @@ public class VistaLugarActivity extends AppCompatActivity {
         lugaresFirebase.setComentario(lugar.getComentario());
         lugaresFirebase.setPosicion(lugar.getPosicion());
         lugaresFirebase.setValoracion(lugar.getValoracion());
+        lugaresFirebase.setFecha(lugar.getFecha());
 
-        databaseReference.child("Lugares").child(String.valueOf(idFirebase)).child(String.valueOf(_id)).setValue(lugaresFirebase);
+        databaseReference.child("Lugares").child(String.valueOf(idFirebase)).child(lugar.getNombre()).setValue(lugaresFirebase);
     }
 
     /**

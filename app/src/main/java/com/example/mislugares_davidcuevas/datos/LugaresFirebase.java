@@ -7,40 +7,31 @@ import java.io.Serializable;
 
 public class LugaresFirebase implements Serializable {
 
-    String nombre;
     String direccion;
     String url;
     int telefono;
     String comentario;
     GeoPunto posicion;
     TipoLugar tipo;
-    float Valoracion;
+    float valoracion;
+    float fecha;
 
     public LugaresFirebase(){
 
     }
 
-    public LugaresFirebase(String nombre, String direccion, String url, int telefono, String comentario, GeoPunto posicion, TipoLugar tipo, float valoracion) {
+    public LugaresFirebase(String direccion, String url, int telefono, String comentario, GeoPunto posicion, TipoLugar tipo, float valoracion) {
 
-        this.nombre = nombre;
         this.direccion = direccion;
         this.url = url;
         this.telefono = telefono;
         this.comentario = comentario;
         this.posicion = posicion;
         this.tipo = tipo;
-        Valoracion = valoracion;
+        this.valoracion = valoracion;
     }
 
 
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
     public String getDireccion() {
         return direccion;
@@ -91,10 +82,19 @@ public class LugaresFirebase implements Serializable {
     }
 
     public float getValoracion() {
-        return Valoracion;
+        return valoracion;
     }
 
     public void setValoracion(float valoracion) {
-        Valoracion = valoracion;
+        this.valoracion = valoracion;
+    }
+
+
+    public float getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(float fecha) {
+        this.fecha = fecha;
     }
 }
