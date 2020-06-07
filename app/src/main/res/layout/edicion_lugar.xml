@@ -12,7 +12,7 @@
     android:fitsSystemWindows="true"
     android:background="@color/colorPrimary"
 
-    tools:context="com.example.mislugares_davidcuevas.presentacion.VistaLugarActivity"
+    tools:context="com.davidcuevascano.mislugares.presentacion.VistaLugarActivity"
     >
 
     <com.google.android.material.appbar.AppBarLayout

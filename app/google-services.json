@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:991499786355:android:f286d2f1a2e63d3636f206",
+        "mobilesdk_app_id": "1:991499786355:android:850b502816d76ecb36f206",
         "android_client_info": {
-          "package_name": "com.example.mislugares_davidcuevas"
+          "package_name": "com.davidcuevascano.mislugares"
         }
       },
       "oauth_client": [
         {
-          "client_id": "991499786355-619rfvhl81ujtjf04pvqeoon8m2k2mrs.apps.googleusercontent.com",
+          "client_id": "991499786355-g05rbebo1i9pcd34kmrlknlkp41ahnuv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.mislugares_davidcuevas",
+            "package_name": "com.davidcuevascano.mislugares",
             "certificate_hash": "72026699c8b49ef7b683a1ab99b25183c55fc44d"
           }
         },

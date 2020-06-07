@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.example.mislugares_davidcuevas.presentacion.Aplicacion"
+        android:name=".presentacion.Aplicacion"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -36,42 +36,45 @@
             android:value="@string/google_maps_key" />
 
 
-        <activity android:name="com.example.mislugares_davidcuevas.presentacion.MainActivity">
+        <activity android:name=".presentacion.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name="com.example.mislugares_davidcuevas.presentacion.AcercaDeActivity"
+            android:name=".presentacion.AcercaDeActivity"
             android:label="Acerca de.."
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
-            android:name="com.example.mislugares_davidcuevas.presentacion.PreferenciasActivity"
+            android:name=".presentacion.PreferenciasActivity"
             android:label="Preferencias.."
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
-            android:name="com.example.mislugares_davidcuevas.presentacion.VistaLugarActivity"
+            android:name=".presentacion.VistaLugarActivity"
             android:label="Lugares.."
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.example.mislugares_davidcuevas.presentacion.EdicionLugarActivity"
+            android:name=".presentacion.EdicionLugarActivity"
             android:label="Editar lugar.."
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.example.mislugares_davidcuevas.mapas.MapsActivity"
+            android:name=".mapas.MapsActivity"
             android:label="Mapa Lugares" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.mislugares_davidcuevas.fileprovider"
+            android:authorities="com.davidcuevascano.mislugares.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+
     </application>
 
 </manifest>

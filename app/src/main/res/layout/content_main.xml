@@ -7,7 +7,7 @@
     tools:showIn="@layout/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mislugares_davidcuevas.presentacion.MainActivity"
+    tools:context="com.davidcuevascano.mislugares.presentacion.MainActivity"
     android:theme="@style/Theme.AppCompat.NoActionBar"
     android:padding="24dp"
     android:background="@color/colorPrimary">

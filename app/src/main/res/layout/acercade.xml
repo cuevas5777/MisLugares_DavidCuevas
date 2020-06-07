@@ -5,5 +5,5 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="@dimen/text_margin"
-    android:text="Este programa ha sido desarrollado como ejemplo en el curso de Android para demostrar cómo se pueden lanzar nuevas actividades desde la actividad principal.">
+    android:text="Esta app ha sido desarrollada para tener a mano una lista de los lugares que mas nos gusten, pudiendo poner una marca en el mapa para localizarlo mejor.">
 </TextView>
