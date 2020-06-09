@@ -47,9 +47,6 @@ public class CasosUsoLugar {
     private Activity actividad;
     private LugaresBD lugares;
     private AdaptadorLugaresBD adaptador;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    private UUID idFirebase;
 
 
 

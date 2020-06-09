@@ -63,7 +63,6 @@ public class EdicionLugarActivity extends AppCompatActivity {
      *
      * @param savedInstanceState objeto Bundle que contiene el estado de la actividad.
      */
-    LugaresFirebase lugaresFirebase = new LugaresFirebase();
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edicion_lugar);

@@ -26,9 +26,6 @@ public class LugaresBD extends SQLiteOpenHelper implements RepositorioLugares {
 
 
     Context contexto;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    private UUID idFirebase;
 
     /**
      * Inilizacion de la clase

@@ -62,14 +62,16 @@
             android:layout_below="@id/direccione"
             android:text="Telefono:"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
         <EditText
             android:id="@+id/telefonoe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/t_telefono"
             android:layout_alignTop="@id/t_telefono"
+            android:layout_toRightOf="@id/t_telefono"
             android:hint="teléfono para contactar"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:maxLength="9" />
         <TextView
             android:id="@+id/t_url"
             android:layout_width="wrap_content"
