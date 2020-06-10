@@ -13,10 +13,6 @@ import com.davidcuevascano.mislugares.modelo.Lugar;
 import com.davidcuevascano.mislugares.modelo.RepositorioLugares;
 import com.davidcuevascano.mislugares.modelo.TipoLugar;
 import com.davidcuevascano.mislugares.presentacion.Aplicacion;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.UUID;
 
 /**
  * Clase que crea  la base de datos si no existe y que contiene

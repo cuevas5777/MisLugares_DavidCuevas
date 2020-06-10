@@ -7,17 +7,13 @@
         android:icon="@drawable/acercade_icono"
         android:orderInCategory="30"
         android:title="Acerca de"
-        app:showAsAction="ifRoom|collapseActionView" />
+        app:showAsAction="withText" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
-    <item android:title="Buscart"
-        android:id="@+id/menu_buscar"
-        android:icon="@android:drawable/ic_menu_search"
-        android:orderInCategory="50"
-        app:showAsAction="always|collapseActionView"/>
+
     <item android:title="Mapa"
         android:id="@+id/menu_mapa"
         android:icon="@drawable/ic_place_black_24dp"

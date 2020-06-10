@@ -15,7 +15,6 @@ import com.davidcuevascano.mislugares.R;
 import com.davidcuevascano.mislugares.adaptadores.AdaptadorLugaresBD;
 import com.davidcuevascano.mislugares.casos_uso.CasosUsoLugar;
 import com.davidcuevascano.mislugares.datos.LugaresBD;
-import com.davidcuevascano.mislugares.datos.LugaresFirebase;
 import com.davidcuevascano.mislugares.mapas.MapsActivity;
 import com.davidcuevascano.mislugares.modelo.Lugar;
 import com.davidcuevascano.mislugares.modelo.TipoLugar;

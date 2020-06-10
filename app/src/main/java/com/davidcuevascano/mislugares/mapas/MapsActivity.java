@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import androidx.fragment.app.FragmentActivity;
+
 import com.davidcuevascano.mislugares.R;
 import com.davidcuevascano.mislugares.adaptadores.AdaptadorLugaresBD;
 import com.davidcuevascano.mislugares.casos_uso.CasoUsoLocalizacion;
@@ -25,7 +27,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -69,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (extras != null) {
             _id = extras.getInt("_id", -1);
         }
-        inicializarFirebase();
+
     }
 
     /**
@@ -215,11 +216,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         }
-    }
-
-    public void inicializarFirebase(){
-        FirebaseApp.initializeApp(this);
-        firebaseDatabase= FirebaseDatabase.getInstance();
-        databaseReference=firebaseDatabase.getReference();
     }
 }

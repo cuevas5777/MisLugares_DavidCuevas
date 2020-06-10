@@ -25,15 +25,12 @@ import com.davidcuevascano.mislugares.modelo.Lugar;
 import com.davidcuevascano.mislugares.presentacion.Aplicacion;
 import com.davidcuevascano.mislugares.presentacion.EdicionLugarActivity;
 import com.davidcuevascano.mislugares.presentacion.VistaLugarActivity;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.UUID;
 
 import static com.davidcuevascano.mislugares.presentacion.VistaLugarActivity.RESULTADO_GALERIA;
 
