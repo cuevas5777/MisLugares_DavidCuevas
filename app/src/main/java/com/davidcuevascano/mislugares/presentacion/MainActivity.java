@@ -1,6 +1,8 @@
 package com.davidcuevascano.mislugares.presentacion;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -230,6 +233,11 @@ public class MainActivity extends AppCompatActivity {
             LanzarPreferencias();
             return true;
         }
+        /*if (id == R.id.menu_buscar) {
+            lanzarVistaLugar();
+            return true;
+        }*/
+
         if (id == R.id.menu_acercaDe){
             LanzarAcercaDe();
             return  true;
@@ -258,7 +266,25 @@ public class MainActivity extends AppCompatActivity {
         startActivity(acercaDe);
     }
 
-
+    /**
+     * Método para abrir un Diálogo para escribir el id del lugar que quieres visualizar
+     *
+     */
+    /*public void lanzarVistaLugar(){
+        final EditText entrada = new EditText(this);
+        entrada.setText("0");
+        new AlertDialog.Builder(this)
+            .setTitle("Selección de lugar")
+            .setMessage("indica su id:")
+            .setView(entrada)
+            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    int id = Integer.parseInt (entrada.getText().toString());
+                    usoLugar.mostrar(id, idFirebase);
+                }})
+            .setNegativeButton("Cancelar", null)
+            .show();
+    }*/
 
     /**
      * Método para lanzar la clase que visualiza el mapa.
