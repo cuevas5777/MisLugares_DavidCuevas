@@ -1,13 +1,16 @@
 package com.davidcuevascano.mislugares.mapas;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.davidcuevascano.mislugares.R;
@@ -34,7 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * FragmentActivity sobre el que vamos a cargar nuestro mapa de la API de Google Maps
  * @author David Cuevas Cano
  */
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener , GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerDragListener{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerDragListener {
 
     private GoogleMap maps;
     private AdaptadorLugaresBD adaptador;
@@ -46,31 +49,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker m;
     private Lugar lugar;
     private int _id = -1;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
 
     /**
      * Inicializa los componentes de la actividad.
      * El argumento Bundle contiene el estado ya guardado de la actividad.
      *
-    * @param savedInstanceState objeto Bundle que contiene el estado de la actividad.
-    */
-    @Override public void onCreate(Bundle savedInstanceState) {
+     * @param savedInstanceState objeto Bundle que contiene el estado de la actividad.
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapa);
         adaptador = ((Aplicacion) getApplication()).adaptador;
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.mapa);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(MapsActivity.this);
         usoLocalizacion = new CasoUsoLocalizacion(this, SOLICITUD_PERMISO_LOCALIZACION);
-        contexto = (Aplicacion)getApplication();
+        contexto = (Aplicacion) getApplication();
         lugares = ((Aplicacion) getApplication()).lugares;
         usoLugar = new CasosUsoLugar(this, lugares, adaptador);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             _id = extras.getInt("_id", -1);
         }
-
     }
 
     /**
@@ -78,7 +79,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      *
      * @param googleMap
      */
-    @Override public void onMapReady(GoogleMap googleMap) {
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
         maps = googleMap;
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(contexto);
@@ -87,6 +89,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         maps.setOnMarkerDragListener(this);
         maps.setOnMapLongClickListener(this);
         if (usoLocalizacion.hayPermisoLocalizacion()) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             maps.setMyLocationEnabled(true);
         }
         maps.getUiSettings().setZoomControlsEnabled(true);
