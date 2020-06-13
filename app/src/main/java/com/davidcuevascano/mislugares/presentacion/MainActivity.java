@@ -333,7 +333,6 @@ public class MainActivity extends AppCompatActivity {
      * Método que activa la localización cuando vuelve a estar en primer plano
      */
     @Override protected void onResume() {
-
         super.onResume();
         usoLocalizacion.activar();
     }
@@ -342,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Método que desactiva la localización cuando se pausa la app
      */
-    @Override protected void onPause() {
+   @Override protected void onPause() {
         super.onPause();
         usoLocalizacion.desactivar();
     }
@@ -432,8 +431,6 @@ public class MainActivity extends AppCompatActivity {
     private void obtenerIdFirebase(FirebaseUser firebaseUser){
         GoogleSignInAccount cuentaGoogle = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         if(cuentaGoogle !=  null){
-            String nombreGoogle = cuentaGoogle.getDisplayName();
-            String personEmail = cuentaGoogle.getEmail();
             String idGoogle = cuentaGoogle.getId();
             idFirebase = idGoogle;
         }

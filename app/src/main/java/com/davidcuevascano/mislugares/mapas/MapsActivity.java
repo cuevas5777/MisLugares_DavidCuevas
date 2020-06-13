@@ -63,7 +63,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         adaptador = ((Aplicacion) getApplication()).adaptador;
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.mapa);
-        mapFragment.getMapAsync(MapsActivity.this);
+        assert mapFragment != null;
+        mapFragment.getMapAsync(this);
         usoLocalizacion = new CasoUsoLocalizacion(this, SOLICITUD_PERMISO_LOCALIZACION);
         contexto = (Aplicacion) getApplication();
         lugares = ((Aplicacion) getApplication()).lugares;
