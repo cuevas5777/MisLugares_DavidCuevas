@@ -1,2 +1,5 @@
+include ':mapbox-android-sdk-9.3.0-javadoc'
+include ':mapbox-android-sdk-9.3.0-sources'
+include ':mapbox-android-sdk-9.3.0'
 include ':app'
 rootProject.name='MisLugares_DavidCuevas'

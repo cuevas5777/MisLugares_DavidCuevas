@@ -1,6 +1,6 @@
-<resources>
-    <string name="app_name">Mis Lugares</string>
-    <string name="large_text"></string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" tools:ignore="PrivateResource">Mis Lugares</string>
     <string name="action_settings">Ajustes</string>
     <string name="title_activity_maps">Map</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiY3VldmFzNTc3NyIsImEiOiJja2QzaDdrczMxbjJxMnVwZ3Q3b2Juc3hwIn0.nOVwJESf_2kvNL740h0cwQ</string>
 </resources>

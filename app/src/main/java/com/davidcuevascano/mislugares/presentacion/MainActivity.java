@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         inicializarReciclerView();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("991499786355-k71pmm1giih4bjru0hmbv67rtl1rnrbv.apps.googleusercontent.com")
+                //.requestIdToken("991499786355-k71pmm1giih4bjru0hmbv67rtl1rnrbv.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, gso);

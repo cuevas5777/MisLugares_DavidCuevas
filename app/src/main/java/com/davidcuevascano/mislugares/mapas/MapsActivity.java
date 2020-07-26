@@ -10,6 +10,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -22,24 +24,112 @@ import com.davidcuevascano.mislugares.modelo.GeoPunto;
 import com.davidcuevascano.mislugares.modelo.Lugar;
 import com.davidcuevascano.mislugares.presentacion.Aplicacion;
 import com.davidcuevascano.mislugares.presentacion.VistaLugarActivity;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.Style;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * FragmentActivity sobre el que vamos a cargar nuestro mapa de la API de Google Maps
  * @author David Cuevas Cano
  */
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerDragListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{//, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerDragListener {
 
-    private GoogleMap maps;
+    private MapView mapView;
+    private AdaptadorLugaresBD adaptador;
+    private CasoUsoLocalizacion usoLocalizacion;
+    private static final int SOLICITUD_PERMISO_LOCALIZACION = 1;
+    private Context contexto;
+    private CasosUsoLugar usoLugar;
+    private LugaresBD lugares;
+    private Marker m;
+    private Lugar lugar;
+    private int _id = -1;
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
+        setContentView(R.layout.mapa);
+
+        mapView = (MapView) findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+
+
+    }
+
+    public void onMapReady(@NonNull final MapboxMap mapboxMap) {
+        mapboxMap.setStyle(String.valueOf(new Style.Builder().fromUri("mapbox://styles/mapbox/cjf4m44iw0uza2spb3q0a7s41")));
+
+    }
+
+    /*@Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*private GoogleMap maps;
     private AdaptadorLugaresBD adaptador;
     private CasoUsoLocalizacion usoLocalizacion;
     private static final int SOLICITUD_PERMISO_LOCALIZACION = 1;
@@ -56,6 +146,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      *
      * @param savedInstanceState objeto Bundle que contiene el estado de la actividad.
      */
+    /*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +171,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      *
      * @param googleMap
      */
+    /*
     @Override
     public void onMapReady(GoogleMap googleMap) {
         maps = googleMap;
@@ -151,6 +243,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      *
      * @param marker
      */
+    /*
     @Override
     public void onInfoWindowClick(Marker marker) {
         for (int id=0; id<adaptador.getItemCount(); id++){
@@ -167,6 +260,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          * Cuando pulsas al marcador si detecta que el título es Agregar Lugar llama al método sobrecargado de crear
          * un lugar nuevo con el GeoPunto del marcador
          */
+    /*
         if (marker.getTitle().equals("Agregar Lugar")) {
             usoLugar.nuevo(new GeoPunto(marker.getPosition().longitude, marker.getPosition().latitude));
             finish();
@@ -178,6 +272,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Método para agregar un marcador en el mapa con el nombre Agregar Lugar, si se pulsa en otro punto se cambia a esa nueva ubicación
      * @param punto
      */
+    /*
     @Override
     public void onMapLongClick(LatLng punto) {
         if (m != null) {
@@ -199,6 +294,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      *
      * @param marker
      */
+    /*
     @Override
     public void onMarkerDragStart(Marker marker) {
 
@@ -209,6 +305,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Se puede acceder a la ubicación del marcador a través de getPosition().
      * @param marker
      */
+    /*
     @Override
     public void onMarkerDrag(Marker marker) {
 
@@ -218,6 +315,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      *Se llama cuando un marcador ha terminado de ser arrastrado, puede accederse a la ubicacion del marcador a través de getPosition().
      * @param marker
      */
+    /*
     @Override
     public void onMarkerDragEnd(Marker marker) {
         for (int id=0; id<adaptador.getItemCount(); id++){
@@ -230,4 +328,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
+    */
 }
